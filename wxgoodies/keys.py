@@ -1,19 +1,31 @@
-import wx, sys
+import wx, sys, logging
 from collections import OrderedDict
+
+logger = logging.getLogger('wxgoodies.keys')
 
 _tables = {} # Control:table pairs.
 mods = OrderedDict() # List of modifiers.
+converts = OrderedDict() # Give command keys their proper names.
 
+logger.debug('Creating command keys.')
 if sys.platform == 'darwin':
- mods[wx.ACCEL_CTRL] = 'CMD'
- mods[wx.ACCEL_ALT] = 'OPT'
+ logger.debug('OS X detected.')
+ mods[wx.MOD_CONTROL] = 'CMD'
+ mods[wx.MOD_ALT] = 'OPT'
+ converts['WXK_CONTROL'] = 'CMD'
+ converts['WXK_RAW_CONTROL'] = 'CTRL'
+ converts['WXK_ALT'] = 'OPT'
 else:
- mods[wx.ACCEL_CTRL] = 'CTRL'
- mods[wx.ACCEL_ALT] = 'ALT'
-mods[wx.ACCEL_SHIFT] = 'SHIFT'
+ logger.debug('%s detected.', sys.platform.title())
+ mods[wx.MOD_CONTROL] = 'CTRL'
+ mods[wx.MOD_ALT] = 'ALT'
+ converts['WXK_RAW_CONTROL'] = 'CTRL'
+ converts['WXK_RAW_CONTROL'] = 'CTRL'
+mods[wx.MOD_SHIFT] = 'SHIFT'
 
 def key_to_str(modifiers, key):
  """Returns a human-readable version of numerical modifiers and key."""
+ logger.debug('Converting (%s, %s) to string.', modifiers, key)
  if not key:
   key_str = 'NONE'
  else:
@@ -25,7 +37,7 @@ def key_to_str(modifiers, key):
  for x in dir(wx):
   if x.startswith('WXK_'):
    if getattr(wx, x) == key:
-    key_str = x[len('WXK_'):]
+    key_str = converts.get(x, x[len('WXK_'):])
  if not key_str:
   key_str = chr(key)
  res += key_str
@@ -33,6 +45,7 @@ def key_to_str(modifiers, key):
 
 def str_to_key(value):
  """Turns a string like "CTRL_ALT+K" into (3, 75)."""
+ logger.debug('Converting "%s" to integers.', key)
  modifiers = 0
  key = 0
  split = value.split('+')
@@ -59,8 +72,12 @@ def add_accelerator(control, key, func, id = None):
  func: The function that should be called when key is pressed.
  id: The id to Bind the event to. Defaults to wx.NewId().
  """
+ logger.debug('Adding key "%s" to control %s to cal %s.', key, control, func)
  if id == None:
   id = wx.NewId()
+  logger.debug('Generated new ID %s.', id)
+ else:
+  logger.debug('Using provided id %s.', id)
  control.Bind(wx.EVT_MENU, func, id = id)
  t = _tables.get(control, [])
  modifiers, key_int = str_to_key(key)

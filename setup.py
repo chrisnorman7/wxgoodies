@@ -10,5 +10,6 @@ setup(
  author_email = 'chris.norman2@googlemail.com',
  license = 'GPL',
  packages = ['wxgoodies'],
- keywords = ['hotkeys']
+ keywords = ['hotkeys'],
+ zip_safe = True
 )
