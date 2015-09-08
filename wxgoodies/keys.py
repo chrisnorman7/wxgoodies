@@ -47,7 +47,7 @@ def key_to_str(modifiers, key):
 
 def str_to_key(value):
  """Turns a string like "CTRL_ALT+K" into (3, 75)."""
- logger.debug('Converting "%s" to integers.', key)
+ logger.debug('Converting "%s" to integers.', value)
  modifiers = 0
  key = 0
  split = value.split('+')
