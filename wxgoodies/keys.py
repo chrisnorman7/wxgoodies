@@ -1,3 +1,5 @@
+"""Hoekey-related routines."""
+
 import wx, sys, logging
 from collections import OrderedDict
 
