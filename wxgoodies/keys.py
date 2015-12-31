@@ -3,7 +3,7 @@
 import wx, sys, logging
 from collections import OrderedDict
 
-logger = logging.getLogger('wxgoodies.keys')
+logger = logging.getLogger(__name__)
 
 _tables = {} # Control:table pairs.
 mods = OrderedDict() # List of modifiers.
@@ -86,6 +86,7 @@ def add_accelerator(control, key, func, id = None):
  t.append((modifiers, key_int, id))
  _tables[control] = t
  update_accelerators(control)
+ return id
 
 def remove_accelerator(control, key):
  """
