@@ -1,0 +1,9 @@
+CHANGES
+=======
+
+* Made add_accelerator return the id rather than None
+* Fixed a bug in str_to_key
+* Updated docstrings
+* Actually commiting
+* Untested first commit
+* Initial commit
