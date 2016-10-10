@@ -1,6 +1,8 @@
 CHANGES
 =======
 
+* Added the ability to add global hotkeys to any control
+* Now use pbr for setup
 * Made add_accelerator return the id rather than None
 * Fixed a bug in str_to_key
 * Updated docstrings

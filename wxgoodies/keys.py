@@ -64,6 +64,7 @@ def key_to_str(modifiers, key, mods_table = mods, key_table = wx, key_prefix = '
  if not key_str:
   key_str = chr(key)
  res += key_str
+ logger.debug('Final result: %s.', res)
  return res
 
 def str_to_key(value, key_table = wx, accel_format = 'ACCEL_%s', key_format = 'WXK_%s', key_transpositions = {}):
@@ -95,6 +96,7 @@ def str_to_key(value, key_table = wx, accel_format = 'ACCEL_%s', key_format = 'W
  if not key:
   logger.debug('No key yet, falling back to ord.')
   key = ord(split[-1])
+ logger.debug('modifiers = %d, key = %d.', modifiers, key)
  return (modifiers, key)
 
 def get_id(id):
